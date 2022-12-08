@@ -73,34 +73,31 @@ class _HomeState extends State<Home> {
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                tileColor: Colors.indigo[100],
-                                trailing: Checkbox(value: todo.completed, onChanged: (value) {
-                                  
-                                }),
-                                // IconButton(
-                                //   icon: Icon(
-                                //     Icons.delete,
-                                //     color: Colors.red[900],
-                                //   ),
-                                //   onPressed: () {
-                                //     ref.child(snapshot.key!).remove();
-                                //   },
-                                // ),
+                                tileColor: Color.fromARGB(250, 235, 244, 242),
+
+                                trailing: Checkbox(
+                                    value: todo.completed,
+                                    onChanged: (value) {
+                                      ref
+                                          .child(snapshot.key!)
+                                          .update({"completed": true});
+                                    }),
+                               
                                 title: Text(
                                   todo.todo,
                                   style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                subtitle:  Text(
+                                subtitle: Text(
                                   DateFormat("hh:mm a")
-                                                        .format( DateTime.parse(todo.timeToExecute)
-                                                           )
-                                                        .toString(),
+                                      .format(
+                                          DateTime.parse(todo.timeToExecute))
+                                      .toString(),
                                   style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               )),
@@ -126,13 +123,6 @@ class _HomeState extends State<Home> {
                   ),
                 );
               }
-            })
-        // SingleChildScrollView(
-        //   child: Container(
-        //     margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
-        //     child: Column(),
-        //   ),
-        // ),
-        );
+            }));
   }
 }
