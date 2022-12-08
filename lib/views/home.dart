@@ -74,15 +74,14 @@ class _HomeState extends State<Home> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 tileColor: Color.fromARGB(250, 235, 244, 242),
-
                                 trailing: Checkbox(
                                     value: todo.completed,
                                     onChanged: (value) {
+                                      printOnlyInDebug(value);
                                       ref
                                           .child(snapshot.key!)
-                                          .update({"completed": true});
+                                          .update({"completed": value});
                                     }),
-                               
                                 title: Text(
                                   todo.todo,
                                   style: const TextStyle(
