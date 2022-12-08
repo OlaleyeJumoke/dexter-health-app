@@ -1,0 +1,138 @@
+import 'dart:convert';
+
+import 'package:dexter_health/constant.dart';
+import 'package:dexter_health/views/add_todo.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../models/todo_model.dart';
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+  static const String id = 'home';
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final fb = FirebaseDatabase.instance;
+  var ref;
+  @override
+  void initState() {
+    ref = fb.ref().child('todos');
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Todo List",
+            style: TextStyle(
+                color: white, fontSize: 20.0, fontWeight: FontWeight.w600),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          tooltip: "Add todo",
+          onPressed: (() {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddTodo()));
+          }),
+          child: const Icon(Icons.add),
+        ),
+        body: FirebaseAnimatedList(
+            query: ref,
+            shrinkWrap: true,
+            defaultChild: const Center(
+              child: Text(
+                "No todo added/available yet",
+                style: TextStyle(
+                    color: green, fontWeight: FontWeight.w700, fontSize: 24),
+              ),
+            ),
+            itemBuilder: (context, snapshot, animation, index) {
+              if (snapshot.exists) {
+                var data = json.encode(snapshot.value);
+                var todo = todoFromJson(data);
+                printOnlyInDebug(data);
+                //printOnlyInDebug(data1.todo);
+                return data.isNotEmpty
+                    ? GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                tileColor: Colors.indigo[100],
+                                trailing: Checkbox(value: todo.completed, onChanged: (value) {
+                                  
+                                }),
+                                // IconButton(
+                                //   icon: Icon(
+                                //     Icons.delete,
+                                //     color: Colors.red[900],
+                                //   ),
+                                //   onPressed: () {
+                                //     ref.child(snapshot.key!).remove();
+                                //   },
+                                // ),
+                                title: Text(
+                                  todo.todo,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle:  Text(
+                                  DateFormat("hh:mm a")
+                                                        .format( DateTime.parse(todo.timeToExecute)
+                                                           )
+                                                        .toString(),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )),
+                        ),
+                      )
+                    : const Center(
+                        child: Text(
+                          "No todo added/available yet",
+                          style: TextStyle(
+                              color: green,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20),
+                        ),
+                      );
+              } else {
+                return const Center(
+                  child: Text(
+                    "No todo added/available yet",
+                    style: TextStyle(
+                        color: green,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24),
+                  ),
+                );
+              }
+            })
+        // SingleChildScrollView(
+        //   child: Container(
+        //     margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+        //     child: Column(),
+        //   ),
+        // ),
+        );
+  }
+}
