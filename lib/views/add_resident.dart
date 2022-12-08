@@ -31,6 +31,10 @@ class _AddResidentState extends State<AddResident> {
     final residentName = useTextEditingController();
     final residentSpecialNeed = useTextEditingController();
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Add Resident"),
+      ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
         child: Column(
@@ -45,18 +49,24 @@ class _AddResidentState extends State<AddResident> {
               hintText: "Resident's special need or ailment",
               validator: ((p0) => null),
             ),
+            const SizedBox(
+              height: 16,
+            ),
             AppButton(
                 onPressed: () {
                   if (residentName.text.isNotEmpty &&
                       residentSpecialNeed.text.isNotEmpty) {
                     printOnlyInDebug("message");
-                    var id = DateTime.now().microsecondsSinceEpoch;
+                    var id = DateTime.now().microsecondsSinceEpoch.toString();
                     ref.push().set({
                       "name": residentName.text,
                       "special_need": residentSpecialNeed.text,
                       "residentId": id,
                       "timeCreated": DateTime.now().toIso8601String()
                     }).asStream();
+                    residentName.clear();
+                    residentSpecialNeed.clear();
+                    showFlush("Resident added!!", green, context);
                   } else {
                     showFlush("Please fill all fields", red, context);
                   }

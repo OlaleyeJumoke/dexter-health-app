@@ -41,8 +41,8 @@ class CustomTextFieldDropDown extends StatelessWidget {
               showCursor: false,
               readOnly: true,
               decoration: InputDecoration(
-                               contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                  fillColor:  Color.fromARGB(251, 243, 247, 246),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                  fillColor: Color.fromARGB(251, 243, 247, 246),
                   filled: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -70,7 +70,8 @@ class CustomTextFieldDropDown extends StatelessWidget {
 
 Future<void> showModalSheet(
     {required BuildContext context,
-    required List<String> items,
+     List<dynamic>? items,
+    Widget? child,
     required String? Function(dynamic)? callBack}) {
   return showModalBottomSheet<void>(
       context: context,
@@ -84,27 +85,25 @@ Future<void> showModalSheet(
       builder: (BuildContext context) {
         return Container(
           height: 400,
-          child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                    onTap: () {
-                      callBack!(items[index]);
-                      Navigator.of(context).pop();
-                    },
-                    child: Column(
-                      
-                      children: [
-                       const Divider(),
-                        Container(
-                          
-                            child: ListTile(
-                                title: Text(
-                          items[index],
-                        ))),
-                      ],
-                    ));
-              }),
+          child: child ?? ListView.builder(
+                  itemCount: items!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                        onTap: () {
+                          callBack!(items[index]);
+                          Navigator.of(context).pop();
+                        },
+                        child: Column(
+                          children: [
+                            const Divider(),
+                            Container(
+                                child: ListTile(
+                                    title: Text(
+                              items[index],
+                            ))),
+                          ],
+                        ));
+                  }),
         );
       });
 }

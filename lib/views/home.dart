@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dexter_health/constant.dart';
+import 'package:dexter_health/views/add_resident.dart';
 import 'package:dexter_health/views/add_todo.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -30,11 +31,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: const SizedBox(width: 0,height: 0,),
+          centerTitle: true,
           title: const Text(
             "Todo List",
             style: TextStyle(
                 color: white, fontSize: 20.0, fontWeight: FontWeight.w600),
           ),
+          actions: [GestureDetector(child:const Padding(
+            padding:  EdgeInsets.all(8.0),
+            child: Icon(Icons.save),
+          ) , onTap: ()=>Navigator.pushNamed(context, AddResident.id),)],
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: "Add todo",
@@ -58,8 +65,7 @@ class _HomeState extends State<Home> {
               if (snapshot.exists) {
                 var data = json.encode(snapshot.value);
                 var todo = todoFromJson(data);
-                printOnlyInDebug(data);
-                //printOnlyInDebug(data1.todo);
+
                 return data.isNotEmpty
                     ? GestureDetector(
                         onTap: () {},
