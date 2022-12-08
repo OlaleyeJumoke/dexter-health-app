@@ -3,14 +3,18 @@
 A new Flutter project.
 
 ## Getting Started
+To run the app, all you have to do is run "flutter run" in your terminal
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+The current features on the app:
+1. Creating a Nurse account
+2. Add resident detail
+3. Add todo
+4. Mark/Unmark todo as done
+5. Pick resident from a list of residents while creating a todo list
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Features I would like to implement I had more time:
+1. Transfering of unfinished todo list to the next shift
+2. Detail page for full detail on task/todo which should show the full      details about the resident to be attended to.[ Please note: I have already mapped the residentId to each todo list created]
+3. Proper login and logout for different nurses at the Home.
+4. I would like to take more information about the resident on the "Add resident page".
